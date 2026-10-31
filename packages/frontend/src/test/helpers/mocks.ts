@@ -17,6 +17,7 @@ export interface MockAuthContext {
   login: () => Promise<void>;
   verifyOTP: () => Promise<void>;
   loginWithGoogle: () => Promise<void>;
+  completeGoogleLogin: (code: string) => Promise<unknown>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
   updateProfile: () => Promise<void>;
@@ -34,6 +35,7 @@ export function createMockAuthContext(overrides: Partial<MockAuthContext> = {}):
     login: async () => {},
     verifyOTP: async () => {},
     loginWithGoogle: async () => {},
+    completeGoogleLogin: async () => ({}),
     logout: async () => {},
     refreshToken: async () => {},
     updateProfile: async () => {},

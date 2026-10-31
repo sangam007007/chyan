@@ -4,6 +4,7 @@ import { AuthLayout } from '@/components/layouts/AuthLayout';
 import { AppLayout } from '@/components/layouts/AppLayout';
 import { LandingPage } from '@/pages/LandingPage';
 import { LoginPage } from '@/pages/LoginPage';
+import { GoogleCallbackPage } from '@/pages/GoogleCallbackPage';
 import { OTPVerifyPage } from '@/pages/OTPVerifyPage';
 import { OnboardingPage } from '@/pages/OnboardingPage';
 import { DashboardPage } from '@/pages/DashboardPage';
@@ -49,6 +50,14 @@ export const router = createBrowserRouter([
     element: (
       <AuthLayout>
         <LoginPage />
+      </AuthLayout>
+    ),
+  },
+  {
+    path: '/auth/google/callback',
+    element: (
+      <AuthLayout>
+        <GoogleCallbackPage />
       </AuthLayout>
     ),
   },

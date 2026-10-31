@@ -39,6 +39,7 @@ export interface AuthContextValue {
   login: (phone: string) => Promise<{ expiresIn: number; resendAfter: number }>;
   verifyOTP: (phone: string, otp: string, captchaToken?: string | null) => Promise<LoginResponse>;
   loginWithGoogle: () => Promise<void>;
+  completeGoogleLogin: (code: string) => Promise<LoginResponse>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<void>;
   updateProfile: (data: Partial<ProfileUpdate>) => Promise<void>;
@@ -199,6 +200,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   /**
+   * Finish Google OAuth: exchange the ?code= Google sent back for a session.
+   */
+  const completeGoogleLogin = useCallback(async (code: string): Promise<LoginResponse> => {
+    const response = await api.post('/api/auth/google/callback', { code });
+    const data = response.data?.data;
+
+    if (data?.accessToken) {
+      setAccessToken(data.accessToken);
+    }
+    if (data?.user) {
+      setUser(data.user);
+    }
+
+    return {
+      accessToken: data?.accessToken ?? '',
+      user: data?.user ?? null,
+      nextStep: data?.nextStep ?? 'dashboard',
+      linkingInfo: data?.linkingInfo,
+    };
+  }, []);
+
+  /**
    * Logout: clear access token, call server to invalidate session.
    *
    * Requirement 7.5: Invalidate both tokens on logout
@@ -292,11 +315,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       login,
       verifyOTP,
       loginWithGoogle,
+      completeGoogleLogin,
       logout,
       refreshToken,
       updateProfile,
     }),
-    [user, isAuthenticated, isLoading, login, verifyOTP, loginWithGoogle, logout, refreshToken, updateProfile]
+    [user, isAuthenticated, isLoading, login, verifyOTP, loginWithGoogle, completeGoogleLogin, logout, refreshToken, updateProfile]
   );
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

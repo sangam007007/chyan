@@ -23,5 +23,7 @@ COPY --from=build /app/packages/backend/dist ./packages/backend/dist
 COPY --from=build /app/packages/backend/migrations ./packages/backend/migrations
 COPY --from=build /app/packages/frontend/dist ./frontend-dist
 WORKDIR /app/packages/backend
+# hosts like Hugging Face run as a non-root user; uploads must be writable
+RUN mkdir -p uploads && chmod -R 777 uploads
 EXPOSE 4000
 CMD ["node", "dist/index.mjs"]
