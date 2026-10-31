@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Performance page: entrance motion only. Resting state of every element is its final, correct state. */
+@keyframes perf-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes perf-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes perf-pop { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.perf-draw { stroke-dasharray: 1; stroke-dashoffset: 0; animation: perf-draw 900ms ease-out both; }
+.perf-fade { animation: perf-fade 700ms ease-out 150ms both; }
+.perf-pop { display: inline-block; animation: perf-pop 500ms ease-out both; }
+@media (prefers-reduced-motion: reduce) { .perf-draw, .perf-fade, .perf-pop, .perf-grow { animation: none; } }
+@keyframes perf-grow { from { transform: scaleY(0); } to { transform: none; } }
+.perf-grow { transform-box: fill-box; transform-origin: bottom; animation: perf-grow 700ms ease-out both; }
+
+/* ── Premium design system (navy + gold). Shared by Dashboard, Study, Test, Progress, Profile ── */
+@layer components {
+  .p-card { @apply bg-white rounded-3xl border border-primary-50 shadow-[0_8px_30px_-12px_rgba(27,58,92,0.25)]; }
+  .p-card-soft { @apply bg-white/80 backdrop-blur rounded-2xl border border-primary-50 shadow-[0_4px_18px_-10px_rgba(27,58,92,0.25)]; }
+  .p-hero { @apply relative overflow-hidden text-white bg-gradient-to-br from-primary-700 via-primary to-primary-400 shadow-[0_18px_40px_-16px_rgba(27,58,92,0.7)]; }
+  .p-btn { @apply inline-flex items-center justify-center rounded-2xl bg-secondary text-primary-800 font-bold text-xs px-4 py-2.5 shadow-md active:scale-95 transition-transform disabled:opacity-50; }
+  .p-btn-navy { @apply inline-flex items-center justify-center rounded-2xl bg-primary text-white font-semibold text-xs px-4 py-2.5 shadow-md active:scale-95 transition-transform disabled:opacity-50; }
+  .p-btn-ghost { @apply inline-flex items-center justify-center rounded-2xl bg-primary-50 text-primary font-semibold text-xs px-4 py-2.5 active:scale-95 transition-transform disabled:opacity-50; }
+  .p-chip { @apply inline-flex items-center gap-1 rounded-full bg-primary-50 text-primary text-[10px] font-semibold px-2.5 py-1; }
+  .p-chip-gold { @apply inline-flex items-center gap-1 rounded-full bg-secondary-100 text-secondary-700 text-[10px] font-bold px-2.5 py-1; }
+  .p-title { @apply text-[13px] font-bold text-primary tracking-tight; }
+  .p-sub { @apply text-[10px] text-gray-400; }
+  .p-select { @apply appearance-none bg-primary-50/70 border border-primary-100 text-primary text-[11px] font-semibold rounded-xl pl-3 pr-8 py-2.5 focus:outline-none focus:ring-2 focus:ring-secondary; }
+  .p-num { @apply font-extrabold tabular-nums text-primary; }
+}
+
+/* ── Desktop type scale ──
+   The screens were written for phones (lots of 9–11px labels). From 1024px up everything gets a little bigger:
+   rem-based text and spacing scale with the root size, and the fixed-px sizes are bumped one by one.
+   Phones are untouched. */
+@media (min-width: 1024px) {
+  html { font-size: 17.5px; }
+  /* elements that already set their own md:/lg:/xl: text size keep it */
+  .text-\[7px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 10px; }
+  .text-\[8px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 11px; }
+  .text-\[9px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 12px; }
+  .text-\[10px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 13px; }
+  .text-\[11px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 14px; }
+  .text-\[12px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 14.5px; }
+  .text-\[13px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 15px; }
+  .text-\[14px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 16px; }
+  .text-\[15px\]:not([class*="md:text-"]):not([class*="lg:text-"]):not([class*="xl:text-"]) { font-size: 17px; }
+  /* shared component classes carry their own fixed px sizes */
+  .p-select { font-size: 14px; }
+  .p-chip, .p-chip-gold { font-size: 13px; }
+  .p-title { font-size: 15.5px; }
+  .p-sub { font-size: 13px; }
+}
+@media (min-width: 1536px) {
+  html { font-size: 18px; }
+}

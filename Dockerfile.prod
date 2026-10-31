@@ -1,0 +1,27 @@
+# Production image: frontend build + backend esbuild bundle, single process serves both.
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+COPY packages/backend/package.json packages/backend/
+COPY packages/frontend/package.json packages/frontend/
+RUN npm ci --workspace=packages/backend --workspace=packages/frontend --include-workspace-root
+COPY tsconfig.base.json ./
+COPY packages ./packages
+ARG VITE_SUPPORT_CONTACT=""
+ENV VITE_SUPPORT_CONTACT=$VITE_SUPPORT_CONTACT
+RUN cd packages/frontend && npx vite build
+RUN cd packages/backend && npx esbuild src/index.ts --bundle --platform=node --format=esm \
+    --packages=external --target=node20 --tsconfig=tsconfig.json --outfile=dist/index.mjs
+
+FROM node:20-alpine
+WORKDIR /app
+ENV NODE_ENV=production FRONTEND_DIST=/app/frontend-dist PORT=4000
+COPY package.json package-lock.json ./
+COPY packages/backend/package.json packages/backend/
+RUN npm ci --workspace=packages/backend --omit=dev
+COPY --from=build /app/packages/backend/dist ./packages/backend/dist
+COPY --from=build /app/packages/backend/migrations ./packages/backend/migrations
+COPY --from=build /app/packages/frontend/dist ./frontend-dist
+WORKDIR /app/packages/backend
+EXPOSE 4000
+CMD ["node", "dist/index.mjs"]

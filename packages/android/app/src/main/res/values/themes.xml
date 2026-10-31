@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark navy while the app starts, so there is no white flash -->
+    <style name="Theme.Chayan" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/navy_dark</item>
+        <item name="android:statusBarColor">@color/navy</item>
+        <item name="android:navigationBarColor">@color/navy_dark</item>
+    </style>
+</resources>

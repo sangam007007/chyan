@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Address of the website the app shows. Overridable on the command line with -PtwaUrl=...
+def twaUrl = (findProperty('twaUrl') ?: 'https://REPLACE-WITH-YOUR-DOMAIN.example/dashboard').toString()
+def twaUri = new URI(twaUrl)
+def twaHostName = twaUri.host
+def twaOrigin = twaUri.scheme + '://' + twaUri.host + (twaUri.port > 0 ? ':' + twaUri.port : '')
+
+// Release signing comes from the environment, never from files that are committed
+def releaseKeystore = System.getenv('CHAYAN_KEYSTORE')
+
+android {
+    namespace = 'com.chayan.app'
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId = (findProperty('appId') ?: 'com.chayan.app').toString()
+        minSdk = 24
+        targetSdk = 36
+        versionCode = (findProperty('versionCode') ?: '1').toString().toInteger()
+        versionName = (findProperty('versionName') ?: '1.0.0').toString()
+
+        manifestPlaceholders = [
+            twaUrl      : twaUrl,
+            twaScheme   : twaUri.scheme,
+            twaHostName : twaHostName,
+        ]
+        // Digital Asset Links: tells Chrome this app and the website belong together (hides the address bar)
+        resValue 'string', 'asset_statements',
+            '[{\\"relation\\": [\\"delegate_permission/common.handle_all_urls\\"], \\"target\\": {\\"namespace\\": \\"web\\", \\"site\\": \\"' + twaOrigin + '\\"}}]'
+    }
+
+    signingConfigs {
+        if (releaseKeystore) {
+            release {
+                storeFile file(releaseKeystore)
+                storePassword System.getenv('CHAYAN_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('CHAYAN_KEY_ALIAS') ?: 'chayan'
+                keyPassword System.getenv('CHAYAN_KEY_PASSWORD') ?: System.getenv('CHAYAN_KEYSTORE_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (releaseKeystore) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.7.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+}

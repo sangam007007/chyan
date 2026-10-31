@@ -1,0 +1,9 @@
+node_modules
+**/node_modules
+**/dist
+.git
+**/.env
+e2e
+portfolio
+docs
+packages/android

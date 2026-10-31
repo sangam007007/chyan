@@ -1,0 +1,39 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile.prod
+      args:
+        VITE_SUPPORT_CONTACT: ${VITE_SUPPORT_CONTACT:-}
+    env_file: .env.production
+    depends_on: [postgres, redis]
+    restart: unless-stopped
+    volumes:
+      - uploads:/app/packages/backend/uploads
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: chayan
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: chayan
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/chayan-db.sql:/docker-entrypoint-initdb.d/01-chayan.sql:ro
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+  caddy:
+    image: caddy:2-alpine
+    ports: ["80:80", "443:443"]
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [app]
+    restart: unless-stopped
+volumes:
+  pgdata:
+  uploads:
+  caddy_data:

@@ -1,0 +1,25 @@
+{
+  "name": "Chayan · चयन",
+  "short_name": "Chayan",
+  "description": "सरकारी भर्ती की तैयारी: टॉपिक-वाइज़ पढ़ाई, मॉक टेस्ट, पिछले वर्ष के पेपर और AI एनालिसिस।",
+  "lang": "hi",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1B3A5C",
+  "background_color": "#0B1725",
+  "categories": ["education"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "टेस्ट", "short_name": "Test", "url": "/tests", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "अध्ययन", "short_name": "Study", "url": "/study-plan", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "कम्युनिटी", "short_name": "Chat", "url": "/community", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

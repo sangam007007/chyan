@@ -1,0 +1,56 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#1B3A5C',
+          50: '#E8EDF3',
+          100: '#D1DBE7',
+          200: '#A3B7CF',
+          300: '#7593B7',
+          400: '#476F9F',
+          500: '#1B3A5C',
+          600: '#162E4A',
+          700: '#112337',
+          800: '#0B1725',
+          900: '#060C12',
+        },
+        secondary: {
+          DEFAULT: '#C5A028',
+          50: '#FBF5E0',
+          100: '#F7EBC1',
+          200: '#EFD783',
+          300: '#E7C345',
+          400: '#C5A028',
+          500: '#A58520',
+          600: '#846A1A',
+          700: '#635013',
+          800: '#42350D',
+          900: '#211B06',
+        },
+        accent: {
+          DEFAULT: '#E63946',
+          50: '#FDEBEC',
+          100: '#FBD7D9',
+          200: '#F7AFB3',
+          300: '#F3878D',
+          400: '#EF5F67',
+          500: '#E63946',
+          600: '#C4202D',
+          700: '#931822',
+          800: '#621016',
+          900: '#31080B',
+        },
+        background: '#F0F4F8',
+        success: '#2ECC71',
+        error: '#E74C3C',
+      },
+      fontFamily: {
+        sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+};
