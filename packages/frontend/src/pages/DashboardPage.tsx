@@ -106,26 +106,26 @@ export function DashboardPage() {
       </PageHero>
 
       {/* Phones: one column in this order. Desktop: a 3-column grid (main content left, side cards right). */}
-      <div className="px-4 lg:px-0 mt-4 lg:mt-5 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 lg:grid-rows-[auto_1fr_auto_auto] gap-4 lg:gap-5 items-start">
+      <div className="px-4 lg:px-0 mt-4 lg:mt-5 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 lg:grid-rows-[auto_1fr_auto_auto] gap-4 lg:gap-5 items-stretch">
         {/* 4. Today's Plan + Continue Learning */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:col-span-2 lg:col-start-1 lg:row-start-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:col-span-2 lg:col-start-1 lg:row-start-1 [&>*]:h-full">
           <TodaysPlan language={language} />
           <ContinueLearning language={language} />
         </div>
 
         {/* 5. Daily Challenge + Performance */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 lg:col-start-3 lg:row-start-1 lg:row-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 lg:grid-rows-[auto_1fr] gap-4 lg:col-start-3 lg:row-start-1 lg:row-span-2 [&>*]:h-full">
           <DailyChallengeBar language={language} />
           <PerformanceCard language={language} />
         </div>
 
         {/* 6. Recent Results */}
-        <div className="lg:col-span-2 lg:col-start-1 lg:row-start-2">
+        <div className="lg:col-span-2 lg:col-start-1 lg:row-start-2 [&>*]:h-full">
           <RecentResults language={language} />
         </div>
 
         {/* 7. Weak Areas */}
-        <div className="lg:col-span-3 lg:row-start-3 xl:col-span-1 xl:col-start-4 xl:row-start-1 xl:row-span-2">
+        <div className="lg:col-span-3 lg:row-start-3 xl:col-span-1 xl:col-start-4 xl:row-start-1 xl:row-span-2 [&>*]:h-full">
           <WeakAreas language={language} />
         </div>
 

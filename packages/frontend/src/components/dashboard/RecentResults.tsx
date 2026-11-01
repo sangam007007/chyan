@@ -66,13 +66,22 @@ export function RecentResults({ language }: RecentResultsProps) {
 
   if (data.length === 0) {
     return (
-      <div className="p-card p-4">
+      <div className="p-card p-4 flex flex-col">
         <h3 className="p-title text-[14px] mb-2">
           {language === 'hi' ? 'हाल के परिणाम' : 'Recent Results'}
         </h3>
-        <p className="text-xs text-gray-500">
-          {language === 'hi' ? 'अभी तक कोई टेस्ट पूरा नहीं किया' : 'No tests completed yet'}
-        </p>
+        <div className="flex-1 flex flex-col items-center justify-center text-center gap-2 py-6">
+          <span className="text-3xl" aria-hidden="true">📝</span>
+          <p className="text-xs text-gray-500">
+            {language === 'hi' ? 'अभी तक कोई टेस्ट पूरा नहीं किया' : 'No tests completed yet'}
+          </p>
+          <button
+            onClick={() => navigate('/tests')}
+            className="mt-1 px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold"
+          >
+            {language === 'hi' ? 'पहला टेस्ट दें' : 'Take your first test'}
+          </button>
+        </div>
       </div>
     );
   }

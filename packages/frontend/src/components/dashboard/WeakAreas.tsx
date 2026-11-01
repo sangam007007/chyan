@@ -29,13 +29,13 @@ export function WeakAreas({ language }: WeakAreasProps) {
 
   if (data.length === 0) {
     return (
-      <div className="p-card p-4">
+      <div className="p-card p-4 flex flex-col">
         <div className="flex items-center justify-between mb-3">
           <h3 className="p-title text-[14px]">
             {language === 'hi' ? 'कमज़ोर क्षेत्र' : 'Weak Areas'}
           </h3>
         </div>
-        <div className="text-center py-4">
+        <div className="flex-1 flex flex-col items-center justify-center text-center py-4">
           <span className="text-2xl mb-2 block">🎉</span>
           <p className="text-xs text-primary font-semibold">
             {language === 'hi' ? 'शानदार! कोई कमज़ोर क्षेत्र नहीं।' : 'Great job! No weak areas detected.'}
