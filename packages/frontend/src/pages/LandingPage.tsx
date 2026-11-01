@@ -420,6 +420,18 @@ export function LandingPage() {
           <Link to="/login" className="relative mt-6 inline-flex items-center justify-center gap-2 rounded-2xl bg-secondary text-primary-800 font-extrabold text-sm px-8 py-3.5 shadow-[0_14px_30px_-10px_rgba(197,160,40,0.9)] active:scale-95 transition-transform">
             {cta} →
           </Link>
+          <div className="relative mt-4">
+            <a
+              href="/downloads/chayan-beta.apk"
+              download="chayan-beta.apk"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/30 bg-white/10 text-white font-bold text-sm px-6 py-3 active:scale-95 transition-transform"
+            >
+              📱 {L('Download Android app (beta)', 'Android ऐप डाउनलोड करें (बीटा)')}
+            </a>
+            <p className="mt-2 text-[11px] text-white/60">
+              {L('Android only · allow "Install unknown apps" when asked', 'सिर्फ़ Android · पूछे जाने पर "अज्ञात ऐप्स इंस्टॉल करें" की अनुमति दें')}
+            </p>
+          </div>
         </div>
         <footer className="mt-8 flex flex-col items-center gap-2 text-[11px] text-gray-400">
           <div className="flex items-center gap-2"><BrandMark className="w-5 h-5" /><span className="font-semibold text-primary-400">{BRAND.name} · {BRAND.nameHi}</span></div>
