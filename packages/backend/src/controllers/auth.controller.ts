@@ -534,7 +534,7 @@ async function googleCallback(req: Request, res: Response): Promise<void> {
 
     // Check for existing user by Google ID
     let user = await queryOne<UserRecord>(
-      `SELECT id, phone, email, full_name, avatar_url, google_id, preferred_language, selected_exam_id, onboarding_completed
+      `SELECT id, phone, email, full_name, avatar_url, google_id, preferred_language, selected_exam_id, onboarding_completed, role
        FROM users WHERE google_id = $1`,
       [profile.googleId]
     );
@@ -565,7 +565,7 @@ async function googleCallback(req: Request, res: Response): Promise<void> {
       const tempUser = await queryOne<UserRecord>(
         `INSERT INTO users (email, full_name, avatar_url, google_id, google_avatar_url, preferred_language, onboarding_completed)
          VALUES ($1, $2, $3, $4, $5, 'hi', false)
-         RETURNING id, phone, email, full_name, avatar_url, google_id, preferred_language, selected_exam_id, onboarding_completed`,
+         RETURNING id, phone, email, full_name, avatar_url, google_id, preferred_language, selected_exam_id, onboarding_completed, role`,
         [profile.email, profile.name || null, profile.picture || null, profile.googleId, profile.picture || null]
       );
 
@@ -607,7 +607,7 @@ async function googleCallback(req: Request, res: Response): Promise<void> {
     const newUser = await queryOne<UserRecord>(
       `INSERT INTO users (email, full_name, avatar_url, google_id, google_avatar_url, preferred_language, onboarding_completed)
        VALUES ($1, $2, $3, $4, $5, 'hi', false)
-       RETURNING id, phone, email, full_name, avatar_url, google_id, preferred_language, selected_exam_id, onboarding_completed`,
+       RETURNING id, phone, email, full_name, avatar_url, google_id, preferred_language, selected_exam_id, onboarding_completed, role`,
       [profile.email, profile.name || null, profile.picture || null, profile.googleId, profile.picture || null]
     );
 
