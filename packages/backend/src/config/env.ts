@@ -22,7 +22,7 @@ const envSchema = z.object({
   REDIS_URL: z
     .string()
     .url("REDIS_URL must be a valid Redis connection string")
-    .startsWith("redis://", "REDIS_URL must use redis:// protocol"),
+    .regex(/^rediss?:\/\//, "REDIS_URL must use redis:// or rediss:// protocol"),
 
   // JWT
   JWT_SECRET: z
