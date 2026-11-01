@@ -203,12 +203,15 @@ function formatUserResponse(user: Pick<UserRecord, "id" | "phone" | "email" | "f
 
 /**
  * Closed-beta shortcut: when BETA_OTP is set, that one code logs in any account
- * that is not staff. Admin accounts always need their real OTP.
+ * that is not staff. Staff accounts need their real OTP unless their phone is
+ * listed in BETA_OTP_STAFF_PHONES.
  */
 async function acceptsSharedBetaOtp(phone: string, otp: string): Promise<boolean> {
   if (!env.BETA_OTP || otp !== env.BETA_OTP) return false;
   const existing = await queryOne<{ role: string }>(`SELECT role FROM users WHERE phone = $1`, [phone]);
-  return !existing || existing.role === "student";
+  if (!existing || existing.role === "student") return true;
+  const staffAllowed = (env.BETA_OTP_STAFF_PHONES ?? "").split(",").map((p) => p.trim()).filter(Boolean);
+  return staffAllowed.includes(phone);
 }
 
 if (env.BETA_OTP) {

@@ -68,6 +68,8 @@ const envSchema = z.object({
     .string()
     .regex(/^\d{6}$/, "BETA_OTP must be exactly 6 digits")
     .optional(),
+  // Comma-separated phones of staff accounts that may also use BETA_OTP (beta only).
+  BETA_OTP_STAFF_PHONES: z.string().optional(),
 
   // Rank Estimator
   RANK_TOTAL_APPLICANTS: z.coerce.number().int().positive(),
