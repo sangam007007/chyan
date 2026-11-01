@@ -201,6 +201,20 @@ function formatUserResponse(user: Pick<UserRecord, "id" | "phone" | "email" | "f
   };
 }
 
+/**
+ * Closed-beta shortcut: when BETA_OTP is set, that one code logs in any account
+ * that is not staff. Admin accounts always need their real OTP.
+ */
+async function acceptsSharedBetaOtp(phone: string, otp: string): Promise<boolean> {
+  if (!env.BETA_OTP || otp !== env.BETA_OTP) return false;
+  const existing = await queryOne<{ role: string }>(`SELECT role FROM users WHERE phone = $1`, [phone]);
+  return !existing || existing.role === "student";
+}
+
+if (env.BETA_OTP) {
+  console.warn("⚠️  BETA_OTP is ON: a shared OTP can log in any student account. Unset it before launch.");
+}
+
 // ─── Route Handlers ───────────────────────────────────────────────────
 
 /**
@@ -299,8 +313,10 @@ async function verifyOtp(req: Request, res: Response): Promise<void> {
   const { phone, otp } = parsed.data;
 
   try {
-    // Verify the OTP
-    await otpService.verify(phone, otp);
+    // Verify the OTP (closed-beta shared code first, otherwise the real per-user OTP)
+    if (!(await acceptsSharedBetaOtp(phone, otp))) {
+      await otpService.verify(phone, otp);
+    }
 
     // Find or create user by phone
     let user = await queryOne<UserRecord>(

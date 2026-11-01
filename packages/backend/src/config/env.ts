@@ -62,6 +62,13 @@ const envSchema = z.object({
   UPLOAD_DIR: z.string().optional().default("./uploads"),
   MAX_AVATAR_SIZE_MB: z.coerce.number().optional().default(2),
 
+  // Closed-beta only: one shared 6-digit OTP that logs in any non-admin account.
+  // Leave unset to turn it off (normal per-user OTP only).
+  BETA_OTP: z
+    .string()
+    .regex(/^\d{6}$/, "BETA_OTP must be exactly 6 digits")
+    .optional(),
+
   // Rank Estimator
   RANK_TOTAL_APPLICANTS: z.coerce.number().int().positive(),
   RANK_TOTAL_MARKS: z.coerce.number().positive().default(150),
